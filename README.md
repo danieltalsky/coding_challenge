@@ -2,33 +2,36 @@
 
 A skeleton flask app to use for a coding challenge.
 
-## Install:
+## Install and Run Locally:
 
-You can use a virtual environment (conda, venv, etc):
-```
+### Use Conda:
+```shell
 conda env create -f environment.yml
 source activate user-profiles
 ```
-
-Or just pip install from the requirements file
-``` 
-pip install -r requirements.txt
-```
-
-## Running the code
-
 ### Spin up the service
-
-```
+```shell
 # start up local server
 python -m run 
 ```
 
-### Making Requests
+## Install and Run With Docker:
 
+Build container and install conda dependencies
+```shell
+docker-compose build
+```
+Run using gunicorn:
+```shell
+docker-compose up
+```
+
+### Making Requests
 ```
 curl -i "http://127.0.0.1:5000/health-check"
 ```
-
+```
+curl -i "http://127.0.0.1:5000/organization/mailchimp"
+```
 
 ## What'd I'd like to improve on...
