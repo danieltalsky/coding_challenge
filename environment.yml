@@ -1,0 +1,11 @@
+name: user-profiles
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - python=3.6
+  - Flask==1.0.2
+  - pytest
+  - pytest-flask
+  - requests
+  - gunicorn
