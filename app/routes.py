@@ -3,7 +3,7 @@ import logging
 import flask
 from flask import jsonify, Response
 
-from app.api_adapters import get_org_data_for_github, get_org_data_for_bitbucket
+from app.adapters import get_org_data_for_github, get_org_data_for_bitbucket
 from app.network import Api, RateLimitExceeded, ResourceNotFound, UnknownNetworkError
 from app.organization import InvalidOrganizationName, Organization
 
@@ -43,9 +43,9 @@ def organization(organization_name: str):
     except RateLimitExceeded as rle:
         app.logger.error(f"Rate limit. URL: {str(rle)}")
         return Response("Please try again later.", status=400)
-    # except UnknownNetworkError as une:
-    #     app.logger.error(f"Rate limit. URL: {str(une)}")
-    #     return Response("Please try again later.", status=400)
+    except UnknownNetworkError as une:
+        app.logger.error(f"Unknown network error. URL: {str(une)}")
+        return Response("Unknown network error.", status=400)
     # except Exception as e:
     #     app.logger.error(f"Exception: {str(e)}")
     #     return Response("Something went wrong!", status=400)

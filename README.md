@@ -14,6 +14,10 @@ source activate user-profiles
 # start up local server
 python -m run 
 ```
+### Run tests
+```shell
+python -m pytest
+```
 
 ## Install and Run With Docker:
 
@@ -23,7 +27,11 @@ docker-compose build
 ```
 Run using gunicorn:
 ```shell
-docker-compose up
+docker-compose up app
+```
+Run tests
+```shell
+docker-compose up test
 ```
 
 ### Making Requests

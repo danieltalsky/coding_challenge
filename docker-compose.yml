@@ -7,4 +7,11 @@ services:
     ports:
       - 5000:5000
     volumes:
-      - ./:/var/
+      - ./:/var
+
+  test:
+    build:
+      context: .
+      dockerfile: test.Dockerfile
+    volumes_from:
+      - app

@@ -10,7 +10,7 @@ class InvalidOrganizationName(Exception):
 class Organization:
 
     name: str
-    VALID_NAME_REGEX = r'^[a-z\d](?:[a-z\d]|-(?=[a-z\d])){0,38}$'
+    VALID_NAME_REGEX = r'^[a-zA-Z\d](?:[a-zA-Z\d]|-(?=[a-zA-Z\d])){0,38}$'
 
     # profile should include the following information (when available):
     # Total number of public repos (separate by original repos vs forked repos)
@@ -41,17 +41,17 @@ class Organization:
         """
         Validates that the name is actually a valid GitLab and Github URL segment format
 
-        Github:
+        Adapted from:
         https://github.com/shinnn/github-username-regex
         According to the form validation messages on Join Github page,
-        - Github username may only contain alphanumeric characters or hyphens.
+        - Github username may only contain alphanumeric characters or hyphens, no underscores
         - Github username cannot have multiple consecutive hyphens.
         - Github username cannot begin or end with a hyphen.
         - Maximum is 39 characters.
         """
         # @TODO compile the regex only once in the module or iterate chars?
         valid_name = re.compile(cls.VALID_NAME_REGEX)
-        return valid_name.match(name)
+        return bool(valid_name.match(name))
 
     @property
     def json_data(self):

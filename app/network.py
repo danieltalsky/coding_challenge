@@ -23,7 +23,7 @@ class Api:
     def pull(self, url: str):
         """ Calls a URL and returns a data structure of its JSON """
 
-        # @TODO: REFACTOR OUT SO THERE'S ONE GENERIC API CALL THAT HANDLES RETRIES
+        # @TODO: This is where a caching layer could be implemented
         response = requests.get(url)
 
         # @TODO: Handle network resilience, incremental backoff, some kind of async layer here
