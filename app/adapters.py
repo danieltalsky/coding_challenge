@@ -5,7 +5,7 @@ GITHUB_BASE = 'https://api.github.com/'
 GITHUB_REPO_LIST = 'orgs/{org}/repos'
 
 
-def get_org_data_for_github(org: Organization, api: Api, version=4):
+def get_org_data_for_github(org: Organization, api: Api, version=4, pull_all_languages=False, pull_all_tags=False):
 
     repos = api.pull(GITHUB_BASE + GITHUB_REPO_LIST.format(org=org.name))
 
@@ -26,18 +26,18 @@ def get_org_data_for_github(org: Organization, api: Api, version=4):
         # A list/count of languages used across all public repos
         # @FIXME: Did they mean ALL languages? Doing so, even though requires per-repo calls
         languages_url = repo.get("languages_url", False)
-        # if languages_url:
-        #     languages = api.pull(languages_url)
-        #     for language in languages.keys():
-        #         org.repo_languages.add(language)
+        if pull_all_languages and languages_url:
+            languages = api.pull(languages_url)
+            for language in languages.keys():
+                org.repo_languages.add(language)
 
         # A list/count of repo topics
         # @FIXME: tags=topics, I'm assuming
         tags_url = repo.get("tags_url", False)
-        # if tags_url:
-        #     tags = api.pull(tags_url)
-        #     for tag in tags:
-        #         org.repo_topics.add(tag)
+        if pull_all_tags and tags_url:
+            tags = api.pull(tags_url)
+            for tag in tags:
+                org.repo_topics.add(tag)
 
     return org
 

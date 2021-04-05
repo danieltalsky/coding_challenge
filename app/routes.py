@@ -21,8 +21,6 @@ def health_check():
     return Response("All Good!", status=200)
 
 
-# MAJOR @TODO: ADD DOCKER CONTAINER STARTUP
-# MAJOR @TODO: ADD TEST HARNESS
 @app.route("/organization/<string:organization_name>", methods=["GET"])
 def organization(organization_name: str):
     """
@@ -32,7 +30,7 @@ def organization(organization_name: str):
         org = Organization(organization_name)
         app.logger.info(f"valid org name found: {org.name}")
         api = Api()
-        org = get_org_data_for_github(org, api, version=4)
+        org = get_org_data_for_github(org, api, version=4, pull_all_languages=False, pull_all_tags=False)
         org = get_org_data_for_bitbucket(org, api, version=2)
     except InvalidOrganizationName as ion:
         app.logger.error(f"Invalid organization name: {organization_name}")
@@ -43,9 +41,9 @@ def organization(organization_name: str):
     except RateLimitExceeded as rle:
         app.logger.error(f"Rate limit. URL: {str(rle)}")
         return Response("Please try again later.", status=400)
-    except UnknownNetworkError as une:
-        app.logger.error(f"Unknown network error. URL: {str(une)}")
-        return Response("Unknown network error.", status=400)
+    # except UnknownNetworkError as une:
+    #     app.logger.error(f"Unknown network error. URL: {str(une)}")
+    #     return Response("Unknown network error.", status=400)
     # except Exception as e:
     #     app.logger.error(f"Exception: {str(e)}")
     #     return Response("Something went wrong!", status=400)
